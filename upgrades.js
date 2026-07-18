@@ -402,7 +402,7 @@ var upgs = {
         type: 0
     },
     n7: {
-        n_cost() {return new MetaNum(850)},
+        n_cost() {return new MetaNum(650)},
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.n6 >= 1},
@@ -410,7 +410,7 @@ var upgs = {
         type: 0
     },
     n8: {
-        n_cost() {return new MetaNum(1750)},
+        n_cost() {return new MetaNum(1100)},
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.n6 >= 1},
@@ -418,7 +418,7 @@ var upgs = {
         type: 0
     },
     n9: {
-        n_cost() {return new MetaNum(3750)},
+        n_cost() {return new MetaNum(2750)},
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.n8 >= 1},
@@ -426,7 +426,7 @@ var upgs = {
         type: 0
     },
     n10: {
-        n_cost() {return new MetaNum(8500)},
+        n_cost() {return new MetaNum(5500)},
 
         boost() {return 2.5},
         unlockedIf() {return you.upgs.n7 >= 1},
@@ -434,7 +434,7 @@ var upgs = {
         type: 0
     },
     n11: {
-        n_cost() {return new MetaNum(20250)},
+        n_cost() {return new MetaNum(12300)},
 
         boost() {return 0.95**p_upgs}, // not boosted by any currency
         unlockedIf() {return you.upgs.n9 >= 1},
@@ -442,7 +442,7 @@ var upgs = {
         type: 5
     },
     n12: {
-        n_cost() {return new MetaNum(60000).mul(7.5**(you.upgs.n12||0)).floor()},
+        n_cost() {return new MetaNum(45000).mul(7.5**(you.upgs.n12||0)).floor()},
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.n10 >= 1},
