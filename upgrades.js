@@ -23,8 +23,8 @@ var upgs = {
             if (l < 5) {
                 // 75*1.5^lvl (0-4)
                 return new MetaNum(75).mul(1.5**l).div(8**v).floor()
-            } else if (l < 45) {
-                // 500*2.5^(lvl-5) (5-44)
+            } else if (l < 50) {
+                // 500*2.5^(lvl-5) (5-49)
                 return new MetaNum(500).mul(2.5**(l-5)).div(8**v).floor()
             }
             return new MetaNum(67)
@@ -191,7 +191,7 @@ var upgs = {
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.u18 >= 1},
-        max() {return 10},
+        max() {return 5},
         type: 0
     },
 
