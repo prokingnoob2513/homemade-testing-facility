@@ -150,7 +150,7 @@ button:hover {cursor: pointer;}
 .node_bp3 {background-color: #B2FFFF;}
 .node_bp4 {background-color: #CBFFFF;}
 .node_bp5 {background-color: #E5FFFF;}
-.node_bp.owned {background-color: #59e0e0;}
+.node_bp.owned {background-color: #4cbebe;}
 
 .node_n {background-color: #776558;}
 .node_n.owned {background-color: #5a4c42;}
@@ -166,7 +166,7 @@ button:hover {cursor: pointer;}
 .upg_p {background-color: #fff; outline: 7px solid #ffffff80; color: #fff;}
 .upg_p.owned {background-color: #c4c4c4; outline-color: #c4c4c480;}
 .upg_bp {background-color: #64ffff; outline: 7px solid #64ffff80; color: #fff;}
-.upg_bp.owned {background-color: #59e0e0; outline-color: #59e0e080;}
+.upg_bp.owned {background-color: #4cbebe; outline-color: #4cbebe80;}
 
 .upg_n {background-color: #776558; outline: 7px solid #77655880; color: #fff;}
 .upg_n.owned {background-color: #5a4c42; outline: 7px solid #5a4c4280; color: #fff;}

@@ -26,6 +26,7 @@ let n7_timer = 45
 let m_req = new MetaNum(Infinity)
 let c_rate = 125
 let p_upgs = 0
+let n2_discount = 1
 
 let s_time = 0
 let time = Date.now()
@@ -224,6 +225,7 @@ function calc(s) {
       if (you.upgs.b13 >= 1) r = r.mul(upgs.b13.boost()[0])
       
       if (you.mat_comp.gte(1)) r = r.mul(10)
+      if (you.mat_comp.gte(2)) r = r.mul(7.5)
       return r
     case "cps":
       let g = new MetaNum(0)
@@ -239,7 +241,7 @@ function calc(s) {
       if (you.upgs.b9 >= 1) g = g.add(upgs.b9.boost())
       if (you.upgs.b13 >= 1) g = g.add(upgs.b13.boost()[1])
 
-      if (you.mat_comp.gte(2)) g = g.add(6)
+      if (you.mat_comp.gte(3)) g = g.mul(2)
       return g
     case "bp":
       let m = 1
@@ -262,6 +264,7 @@ function calc(s) {
       if (you.upgs.b8 >= 1) be *= upgs.b8.boost()[2]
 
       if (you.mat_comp.gte(1)) be *= 5
+      if (you.mat_comp.gte(2)) be *= 3
       return be
     case "n_conv":
       return calc("p").mul(cps[0]).mul(c_rate)
@@ -297,7 +300,7 @@ function neat(m) {
       you.neat_active = !you.neat_active
       if (you.neat_active) {
         if (you.upgs.n6 >= 1)
-          you.neat_timer = [0, stupidRounding(randNum(11, 15))]
+          you.neat_timer = [0, stupidRounding(randNum(10, 14))]
         else if (you.upgs.b6 >= 1)
           you.neat_timer = [0, stupidRounding(randNum(14, 18))]
         else
@@ -336,7 +339,7 @@ let g_loop = setInterval(() => {
   let now = Date.now()
   let diff = (now - time) / 1e3
 
-  // Update values
+  // Update other values
   cps[0] = calc("cps").max(0)
   m_req = new MetaNum(1000).mul(MetaNum(100).pow(you.mat_comp))
 
@@ -350,6 +353,7 @@ let g_loop = setInterval(() => {
   if (you.upgs.u11 >= 1) c_rate2 *= 2.2
   if (you.upgs.n10 >= 1) c_rate2 *= 3
   c_rate = c_rate2
+  n2_discount = 1.25**(you.upgs.n2||0)
 
   // Automation stuff
   if (cps[0].gte(20)) {
@@ -357,7 +361,7 @@ let g_loop = setInterval(() => {
   } else if (cps[0].gte(0.1) && cps[1] <= 0) {
     if (s_time >= 0.25)
       you.points = you.points.add(calc("p"))
-    cps[1] = 1/ cps[0].toNumber()
+    cps[1] = 1/cps[0].toNumber()
   }
   if (n7_timer <= 0 && you.upgs.n7 >= 1) {
     you.neat_comp = you.neat_comp.add(calc("n"))
@@ -511,9 +515,6 @@ let g_loop = setInterval(() => {
 }, {passive: false}) // REMOVE AFTER RELEASE!!!!*/
 document.addEventListener("beforeunload", save, {passive: false})
 
-let n2_gen = setInterval(() => {
-  if (you.upgs.n2 >= 1 && !timeStop) you.points = you.points.add(upgs.n2.boost())
-}, 1000)
 let a_save = setInterval(save, 5000)
 load()
 

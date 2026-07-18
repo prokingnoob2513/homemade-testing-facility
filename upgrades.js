@@ -1,7 +1,7 @@
 var upgs = {
     // point upgs
     u1: {
-        p_cost() {return new MetaNum(20)},
+        p_cost() {return new MetaNum(20).div(n2_discount)},
 
         boost() {return 2},
         unlockedIf() {return you.started},
@@ -9,7 +9,7 @@ var upgs = {
         type: 0, // 0: generic, 1: boost-dependent
     },
     u2: {
-        p_cost() {return new MetaNum(45)},
+        p_cost() {return new MetaNum(45).div(n2_discount)},
 
         boost() {return 1.5},
         unlockedIf() {return you.upgs.u1 >= 1},
@@ -22,10 +22,10 @@ var upgs = {
             let v = you.upgs.u20||0
             if (l < 5) {
                 // 75*1.5^lvl (0-4)
-                return new MetaNum(75).mul(1.5**l).div(8**v).floor()
+                return new MetaNum(75).mul(1.5**l).div(8**v).floor().div(n2_discount)
             } else if (l < 50) {
                 // 500*2.5^(lvl-5) (5-49)
-                return new MetaNum(500).mul(2.5**(l-5)).div(8**v).floor()
+                return new MetaNum(500).mul(2.5**(l-5)).div(8**v).floor().div(n2_discount)
             }
             return new MetaNum(67)
         },
@@ -42,9 +42,9 @@ var upgs = {
     },
     u4: {
         p_cost() {
-            if (you.upgs.u4 >= 2) return MetaNum(2100).mul(12.5**((you.upgs.u4||0)-2))
-            if (you.upgs.u4 == 1) return MetaNum(700)
-            return new MetaNum(140)
+            if (you.upgs.u4 >= 2) return MetaNum(2100).mul(12.5**((you.upgs.u4||0)-2)).div(n2_discount)
+            if (you.upgs.u4 == 1) return MetaNum(700).div(n2_discount)
+            return new MetaNum(140).div(n2_discount)
         },
 
         boost() {
@@ -55,7 +55,7 @@ var upgs = {
         type: 0
     },
     u5: {
-        p_cost() {return new MetaNum(230)},
+        p_cost() {return new MetaNum(230).div(n2_discount)},
 
         boost() {return 0.2},
         unlockedIf() {return you.upgs.u4 >= 1},
@@ -63,7 +63,7 @@ var upgs = {
         type: 0
     },
     u6: {
-        p_cost() {return new MetaNum(400)},
+        p_cost() {return new MetaNum(400).div(n2_discount)},
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.u5 >= 1},
@@ -71,7 +71,7 @@ var upgs = {
         type: 0
     },
     u7: {
-        p_cost() {return new MetaNum(800)},
+        p_cost() {return new MetaNum(800).div(n2_discount)},
 
         boost() {return 0.3},
         unlockedIf() {return you.upgs.u6 >= 1},
@@ -79,7 +79,7 @@ var upgs = {
         type: 0
     },
     u8: {
-        p_cost() {return new MetaNum(1500)},
+        p_cost() {return new MetaNum(1500).div(n2_discount)},
 
         boost() {
             let l = 10
@@ -94,7 +94,7 @@ var upgs = {
         type: 1
     },
     u9: {
-        p_cost() {return new MetaNum(3500)},
+        p_cost() {return new MetaNum(3500).div(n2_discount)},
 
         boost() {return [1.4, 0.25]},
         unlockedIf() {return you.upgs.u8 >= 1},
@@ -102,7 +102,7 @@ var upgs = {
         type: 0
     },
     u10: {
-        p_cost() {return new MetaNum(6000)},
+        p_cost() {return new MetaNum(6000).div(n2_discount)},
 
         boost() {return 1.25},
         unlockedIf() {return you.upgs.u9 >= 1},
@@ -111,7 +111,7 @@ var upgs = {
     },
 
     u11: {
-        p_cost() {return new MetaNum(12500)},
+        p_cost() {return new MetaNum(12500).div(n2_discount)},
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.u5 >= 1 && you.upgs.b3 >= 1},
@@ -119,7 +119,7 @@ var upgs = {
         type: 0
     },
     u12: {
-        p_cost() {return new MetaNum(30000)},
+        p_cost() {return new MetaNum(30000).div(n2_discount)},
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.u7 >= 1 && you.upgs.b3 >= 1},
@@ -127,7 +127,7 @@ var upgs = {
         type: 0
     },
     u13: {
-        p_cost() {return new MetaNum(75000)},
+        p_cost() {return new MetaNum(75000).div(n2_discount)},
 
         boost() {return undefined},
         unlockedIf() {return you.upgs.u8 >= 1 && you.upgs.b3 >= 1},
@@ -135,12 +135,12 @@ var upgs = {
         type: 0
     },
     u14: {
-        p_cost() {return new MetaNum(300000)},
+        p_cost() {return new MetaNum(300000).div(n2_discount)},
 
         boost() {
             let v = you.bpoints
             if (you.upgs.u21 >= 1) v = v.mul(you.neat_comp.pow(1.15).max(1))
-            return v.add(2).root(10).sub(1).max(0)
+            return v.add(2).pow(0.1).sub(1).max(0)
         },
         unlockedIf() {return you.upgs.u10 >= 1 && you.upgs.b3 >= 1},
         max() {return 1},
@@ -270,7 +270,7 @@ var upgs = {
         
         boost() {return [1+0.5*(you.upgs.b4||0), 1+0.25*(you.upgs.b4||0)]},
         unlockedIf() {return you.upgs.b3 >= 1},
-        max() {return 25 + (you.upgs.n8 >= 1 ? 50 : 0)},
+        max() {return 25 + (you.mat_comp.gte(1) ? 50 : 0)},
         type: 0
     },
     b5: {
@@ -358,9 +358,9 @@ var upgs = {
     n2: {
         n_cost() {return new MetaNum(9).mul(2.75**(you.upgs.n2||0)).floor()},
 
-        boost() {return 20*2.5**((you.upgs.n2||0)-1)},
+        boost() {return undefined},
         unlockedIf() {return you.upgs.n1 >= 1},
-        max() {return 20},
+        max() {return 5},
         type: 0
     },
     n3: {
