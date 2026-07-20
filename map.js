@@ -93,40 +93,47 @@ window.addEventListener('load', () => {
 
 
 let targets = []
+const offsetX = 15;
+const offsetY = 15;
 const tooltip = document.querySelector('.tooltip');
+
+function setupTooltip(element, contentFn) {
+  element.addEventListener('mouseenter', () => {
+    tooltip.classList.add('visible');
+    tooltip.innerHTML = contentFn();
+  });
+  element.addEventListener('mouseleave', () => {
+    tooltip.classList.remove('visible');
+  });
+  element.addEventListener('mousemove', (e) => {
+    tooltip.style.left = `${e.clientX + offsetX}px`;
+    tooltip.style.top = `${e.clientY + offsetY}px`;
+  });
+  /*
+  element.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    tooltip.classList.add('visible');
+    tooltip.innerHTML = contentFn();
+  });
+  element.addEventListener('touchend', () => {
+    tooltip.classList.remove('visible');
+  });
+  element.addEventListener('touchcancel', () => {
+    tooltip.classList.remove('visible');
+  });
+  element.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    tooltip.style.left = `${e.clientX + offsetX}px`;
+    tooltip.style.top = `${e.clientY + offsetY}px`;
+  });*/
+}
 for (let u of Object.keys(upgs)) {
   try {
     upgs[u].tooltip()
     targets.push(u)
   } catch (err) {}
 }
-// Offset values to keep the tooltip slightly away from the exact cursor point
-const offsetX = 15;
-const offsetY = 15;
 for (let u of targets) {
-  const hg = document.querySelector(`#${u} > .upg`)
-  hg.addEventListener('mouseenter', () => {
-    tooltip.classList.add('visible');
-    tooltip.innerHTML = upgs[u].tooltip()
-  });
-  hg.addEventListener('mouseleave', () => {
-    tooltip.classList.remove('visible');
-  });
-  hg.addEventListener('mousemove', (e) => {
-    tooltip.style.left = `${e.clientX + offsetX}px`;
-    tooltip.style.top = `${e.clientY + offsetY}px`;
-  });
-
-  hg.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    tooltip.classList.add('visible');
-    tooltip.innerHTML = upgs[u].tooltip()
-  });
-  hg.addEventListener('touchend', () => {tooltip.classList.remove('visible');});
-  hg.addEventListener('touchcancel', () => {tooltip.classList.remove('visible');});
-  hg.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    tooltip.style.left = `${e.clientX + offsetX}px`;
-    tooltip.style.top = `${e.clientY + offsetY}px`;
-  });
+  const hg = document.querySelector(`#${u} > .upg`);
+  setupTooltip(hg, () => upgs[u].tooltip());
 }

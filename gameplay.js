@@ -157,7 +157,6 @@ function gain() {
   }
   if (you.points.gte(5)) you.started = true
 }
-// TODO: fix effect on buy
 function buy(u) {
   let h = you.upgs[u] || 0
   if (h < upgs[u].max()) {
@@ -184,8 +183,8 @@ function buy(u) {
     vfx.style.top = uh.style.top
     vfx.style.left = uh.style.left
 
-    vfx.style.backgroundColor = "#e4e4e4"
-    document.getElementById("map-content").append(vfx)
+    vfx.style.backgroundColor = `color-mix(in srgb, ${window.getComputedStyle(uh).backgroundColor} 95%, black)`
+    document.querySelector(".placements").append(vfx)
 
     setTimeout(() => {
       vfx.style.width = mult_px(uh.style.width, 2)
@@ -276,7 +275,7 @@ function neat(m) {
   switch (m) {
     case "mat":
       if (you.neat_comp.gte(m_req)) {
-        bp_reset(true, false)
+        bp_reset(false)
         for (let u of Object.keys(you.upgs)) {
           // Check if it's a neat upg
           if (u[0] == "n") delete you.upgs[u]
@@ -299,11 +298,11 @@ function neat(m) {
       you.neat_active = !you.neat_active
       if (you.neat_active) {
         if (you.upgs.n6 >= 1)
-          you.neat_timer = [0, stupidRounding(randNum(10, 14))]
+          you.neat_timer = [0, stupidRounding(randNum(8, 12))]
         else if (you.upgs.b6 >= 1)
-          you.neat_timer = [0, stupidRounding(randNum(14, 18))]
+          you.neat_timer = [0, stupidRounding(randNum(11, 14))]
         else
-          you.neat_timer = [0, stupidRounding(randNum(16, 22))]
+          you.neat_timer = [0, stupidRounding(randNum(14, 18))]
       } else {
           let o = you.upgs.n3 >= 1 ? (you.upgs.n14 >= 1 ? 0.2 : 0.25) : 0.3
           if (
@@ -316,21 +315,19 @@ function neat(m) {
       break
   }
 }
-function bp_reset(force, canGain = true) {
-  if ((you.points.gte(10000) && you.upgs.u10 >= 1) || force) {
-    if (canGain) you.bpoints = you.bpoints.add(calc("bp"))
-    you.points = new MetaNum(0)
-    you.neat_comp = new MetaNum(0)
+function bp_reset(canGain = true) {
+  if (canGain) you.bpoints = you.bpoints.add(calc("bp"))
+  you.points = new MetaNum(0)
+  you.neat_comp = new MetaNum(0)
 
-    you.neat_active = false
-    you.neat_timer = [0,0]
-    you.b10_timer = 30
-    you.u23_timer = 0
+  you.neat_active = false
+  you.neat_timer = [0,0]
+  you.b10_timer = 30
+  you.u23_timer = 0
 
-    for (let u of Object.keys(you.upgs)) {
-      // Check if it's a point upg
-      if (u[0] == "u") delete you.upgs[u]
-    }
+  for (let u of Object.keys(you.upgs)) {
+    // Check if it's a point upg
+    if (u[0] == "u") delete you.upgs[u]
   }
 }
 
@@ -514,39 +511,28 @@ let g_loop = setInterval(() => {
   time = now
 }, 50)
 
-/*document.addEventListener("keydown", (e) => {
-  if (e.key == "q") timeStop = !timeStop
-}, {passive: false}) // REMOVE AFTER RELEASE!!!!*/
 document.addEventListener("beforeunload", save)
 
 let n8_gen = setInterval(() => {
-  
+  if (you.upgs.n8 >= 1) {
+    const t = document.createElement("button")
+    const ran = stupidRounding(randNum(3.5, 5))
+    t.className = "n_token"
+    t.style.top = randNum(0, 1125) + "px"
+    t.style.left = randNum(-1500, 2625) + "px"
+    setupTooltip(t, () => `NEaT Token - Collect to gain <col_n>${format(calc("n")*ran)}N</col_n>`);
+    t.addEventListener("click", () => {
+      you.neat_comp = you.neat_comp.add(calc("n")*ran)
+      tooltip.classList.remove('visible');
+      t.remove()
+    })
+
+    document.querySelector(".placements").append(t)
+    setTimeout(() => {t.remove()}, 300000)
+  }
 }, 50000)
 let a_save = setInterval(save, 5000)
 load()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

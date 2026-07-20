@@ -62,10 +62,13 @@ var upgs = {
             return new MetaNum(140).div(n2_discount)
         },
 
-        boost() {return 1.6 + (you.upgs.u4||0) * 0.8},
+        boost() {
+            if (you.upgs.u4 == 1) return 1.6
+            return 1.6 + ((you.upgs.u4||0)-1) * 0.8
+        },
         unlockedIf() {return you.upgs.u2 >= 1},
         max() {return 2 + (you.upgs.b2 >= 1 ? 1 : 0) + (you.upgs.u19 >= 1 ? 15 : 0)},
-        tooltip() {return `Current effect: <col_p>x${format(upgs.u4.boost())} p</col_p> gain`},
+        tooltip() {return `Current effect: <col_p>x${format(you.upgs.u4 >= 1 ? upgs.u4.boost() : 1)} p</col_p> gain`},
         type: 0
     },
     u5: {

@@ -8,7 +8,7 @@ html, body { height: 100%; margin: 0px; overflow: hidden;}
 button:hover {cursor: pointer;}
 
 /* Map */
-/* outside (-69421) -> map (-69420) -> structs (-2) -> upg.vfx (-1) -> upgs/nodes (0) -> transparent, black background (1) -> UI and stuffs (2) */
+/* outside (-69421) -> map (-69420) -> structs (-1) -> upgs/nodes, upg.vfx (0) -> n_tokens (1) -> transparent, black background (2) -> UI (3) */
 
 #map-viewport {
   width: 100%;
@@ -23,7 +23,7 @@ button:hover {cursor: pointer;}
   position: fixed;
   inset: 0;
   background-color: #000000A0;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
 }
 #map-viewport:active {cursor: grabbing;}
@@ -59,7 +59,7 @@ button:hover {cursor: pointer;}
 .upgrades, .n_plate, .bp_plate, .n_upgs_plate, .m_plate {
   transform: translate(2375px, 2375px);
   transform-origin: top left;
-  z-index: -2;
+  z-index: -1;
 }
 .neat {
   background-image: url("assets/neat.png");
@@ -185,7 +185,7 @@ button:hover {cursor: pointer;}
   transition-timing-function: linear;
   
   position: absolute;
-  z-index: -1;
+  z-index: 0;
 }
 .clicker {
   background-color: #fff;
@@ -212,7 +212,6 @@ button:hover {cursor: pointer;}
   align-items: center;
   justify-content: center;
 }
-#u9 > .node {z-index: -1;}
 #n8 > .upg > .boost > div, #n8 > .upg > .boost > div > col_n {font-size: clamp(10px, 7cqmin, 16px);}
 .bp_plate > .upg_bp > .cost {white-space: nowrap;}
 
@@ -257,46 +256,18 @@ button:hover {cursor: pointer;}
   width: 100px;
   height: 100px;
   object-fit: cover;
-  z-index: 2;
+  z-index: 3;
   opacity: 60%;
   clip-path: inset(20px 10px 20px 10px); /* Top, right, bottom, left margins to cut out */
 }
-
-.lounge {
+.n_token {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: auto;
-  overflow-y: auto;
-  scrollbar-width: none;
-
-  width: 400px;
-  height: 600px;
-
-  background-color: #fdff88;
-  outline: 2px solid #000;
-  border-radius: 2%;
-}
-.lounge_enter {
-  position: absolute;
-  width: 200px;
-  height: 150px;
   transform: translate(2375px, 2375px);
-  
-  background-color: #fdff88;
-  outline: 1px solid #000;
+  width: 75px;
+  height: 75px;
+  background-image: url("assets/n_token.png");
+  z-index: 1;
 }
-.lounge_bdc, .lounge_bsp, .lounge_bcr, .lounge_bcl {
-  width: 350px;
-  height: 50px;
-  outline: 2px solid #000;
-  border-radius: 5%;
-}
-.lounge_bdc {background-color: #0059ff;}
-.lounge_bsp {background-color: #00ff37;}
-.lounge_bcr {background-color: #ffd900;}
-.lounge_bcl {background-color: #ff1100;}
 
 .info {
   position: absolute;
@@ -340,7 +311,7 @@ button:hover {cursor: pointer;}
   height: 100%;
 
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
 }
 .ui-layer > button {pointer-events: auto;}
 /* Used google AI for this */

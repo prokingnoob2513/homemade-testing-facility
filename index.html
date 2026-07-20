@@ -42,7 +42,8 @@
           <div class="bp_plate">
             <img src="assets/bp_plate.png" draggable="false" style="position: absolute; top: 0px; left: -1500px;">
             <button type="button" class="upg upg_bp map-marker" style="top: 500px; left: -675px; width: 225px; height: 150px;" onclick='
-              if (confirm("Perform ь reset for "+format(calc("bp"))+"ь?")) bp_reset(); this.blur()
+              if (you.points.gte(10000) && you.upgs.u10 >= 1)
+                if (confirm("Perform ь reset for "+format(calc("bp"))+"ь?")) bp_reset(); this.blur()
             '>
               <div class="title">BOOSTER POINTS<br></div>
               <div class="boost"><div>
@@ -67,7 +68,8 @@
               Allowed offset: <span id="neat_offset">±0.3s</span><br>
             </button>
           </div>
-          <!--button class="lounge_enter" style="top: -150px; left: 500px;" onclick="show('.lounge'); isInUI = true">Lounge entrance goes here</button-->
+
+          <div class="placements"></div>
           
           <!-- Gameplay -->
           <!-- 1 stud = 25px -->
@@ -351,7 +353,7 @@
                 <div class="title">B6 - Efficiency<br></div>
                 <div class="boost"><div>
                   Reduce <col_n>NEaT's</col_n> target time<br>
-                  <col_footer>16-22s -> 14-18s</col_footer>
+                  <col_footer>14-18s -> 11-14s</col_footer>
                 </div></div>
                 <div class="cost">ello</div>
               </button>
@@ -426,7 +428,7 @@
             </div>
 
             <div id="n1">
-              <div class="node node_n map-marker" style="top: 100px; left: 2175px; width: 900px; height: 50px;"></div>
+              <!--div class="node node_n map-marker" style="top: 100px; left: 2175px; width: 900px; height: 50px;"></div-->
               <button type="button" class="upg upg_n map-marker" style="top: 50px; left: 3075px; width: 225px; height: 150px;" onclick='buy("n1"); this.blur()'>
                 <div class="title">N1 - Efficiency+<br></div>
                 <div class="boost"><div><col_n>x2 N</col_n> gain</div></div>
@@ -493,7 +495,7 @@
               <div class="node node_n3 map-marker" style="top: 1175px; left: 3300px; width: 25px; height: 50px;"></div>
               <button type="button" class="upg upg_n3 map-marker" style="top: 1125px; left: 3075px; width: 225px; height: 150px;" onclick='buy("n6"); this.blur()'>
                 <div class="title">N6 - Efficiency++<br></div>
-                <div class="boost"><div>Reduce <col_n>NEaT's</col_n> target time again<br><col_footer>(14-18s -> 10-14s)</col_footer></div></div>
+                <div class="boost"><div>Reduce <col_n>NEaT's</col_n> target time again<br><col_footer>(11-14s -> 8-12s)</col_footer></div></div>
                 <div class="cost">ello</div>
               </button>
             </div>
@@ -513,8 +515,8 @@
               <button type="button" class="upg upg_n4 map-marker" style="top: 1425px; left: 3275px; width: 225px; height: 150px;" onclick='buy("n8"); this.blur()'>
                 <div class="title">N8 - Scavenger hunt<br></div>
                 <div class="boost"><div>
-                  Unlock <col_n>NEaT fragments</col_n> where it'll spawn randomly around the map every 50s (WIP)<br>
-                  <col_footer>Despawns after 5m</col_footer>
+                  Unlock <col_n>NEaT Tokens</col_n>, where it'll spawn randomly around the map every 50s<br>
+                  <col_footer2>Despawns after 5m, resets on refresh</col_footer2>
                 </div></div>
                 <div class="cost">ello</div>
               </button>
@@ -601,36 +603,6 @@
           <div class="stat" id="bpoint">{10,100[23]24}ь</div>
           <div class="stat" id="mat">a+biɱ</div>
         </div>
-        <!--div class="lounge" style="display: none;">
-          <center class="lounge_main">
-            <h1>welcome to my lounge xd [Need someone to do/revamp CSS]</h1>
-            This is where you'll just... rest here I guess.<br><br>
-            <button class="lounge_bdc" onclick="window.open('https://discord.gg/eAzQPyXTPc', '_blank');">Join my discord server!</button><br>
-            <button class="lounge_bsp" onclick="window.open('https://boosty.to/testboosty12345678/donate', '_blank');">Support my project!</button><br>
-            <button class="lounge_bcr" onclick="hide('.lounge_main'); show('.lounge_cr')">Credits</button>
-            <button class="lounge_bcl" onclick="hide('.lounge'); isInUI = false">Exit the lounge</button>
-          </center>
-          <center class="lounge_cr" style="display: none;">
-            <h1>PrUT:OR Credits</h1>
-            proking_noob2513 // Lead programmer, map maker<br>
-            arincttof // Some help on programming<br>
-            the_hamster_god // Little help on programming?, testing<br>
-            diamondzishere // Little help on programming?<br>
-            79_protons // Testing
-
-            <h1>PrUT Credits</h1>
-            proking_noob2513 (@prokingnoob2513) // Lead developer/scripter<br>
-            wordswithjustair (@zhihin25) // Co-lead developer?<br>
-            denisefans28_2 (@denisefans28_2) // Artist/Illustrator<br>
-            the_hamster_god (@vikisvikis1234) // Scripting<br>
-            cheesestickz16 (@JCarbs13) // Building, little bit of scripting<br>
-            maxamoo678alt (@maxamoo678alt) // Building<br>
-            droneroblo4 (@LersSUS568) // Building<br>
-            boxyh (@q_boxy) // Building?<br>
-            artemkopyahov (@ABoyK12) // Testing<br><br>
-            <button class="lounge_bcl" onclick="hide('.lounge_cr'); show('.lounge_main')">Go back</button><br>
-          </center>
-        </div-->
         <div class="info" style="display: none;">
           <center>
             <h1>PrUT: Outbloxima Reality</h1>
