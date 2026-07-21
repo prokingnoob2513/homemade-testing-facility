@@ -2,7 +2,7 @@
 <html
   <head>
     <title>PrUT: Outbloxima Reality</title>
-    <link rel="icon" type="image/x-icon" href="assets/image.png">
+    <link rel="icon" type="image/x-icon" href="assets/p.png">
     <link rel="stylesheet" href="style.css" />
     <meta charset="utf-8">
   </head>
@@ -41,13 +41,12 @@
           </div>
           <div class="bp_plate">
             <img src="assets/bp_plate.png" draggable="false" style="position: absolute; top: 0px; left: -1500px;">
-            <button type="button" class="upg upg_bp map-marker" style="top: 500px; left: -675px; width: 225px; height: 150px;" onclick='
-              if (you.points.gte(10000) && you.upgs.u10 >= 1)
-                if (confirm("Perform ь reset for "+format(calc("bp"))+"ь?")) bp_reset(); this.blur()
+            <button type="button" class="upg upg_bp map-marker" style="top: 500px; left: -675px; width: 225px; height: 150px;" ondblclick='
+              if (you.points.gte(10000) && you.upgs.u10 >= 1) bp_reset(); this.blur()
             '>
               <div class="title">BOOSTER POINTS<br></div>
               <div class="boost"><div>
-                Reset previous progress to gain <col_bp>Booster Points (ь)</col_bp><br>
+                Double-click to reset previous progress to gain <col_bp>Booster Points (ь)</col_bp><br>
                 <col_footer>Formula: sqrt(p/10,000)</col_footer>
               </div></div>
               <div class="cost">ello</div>
@@ -70,12 +69,15 @@
           </div>
 
           <div class="placements"></div>
-          
+
           <!-- Gameplay -->
           <!-- 1 stud = 25px -->
           <div class="upgrades">
             <div class="node node_p map-marker" style="top: 875px; left: 1100px; width: 50px; height: 75px;"></div>
-            <button type="button" class="clicker map-marker" style="top: 725px; left: 1012.5px; width: 225px; height: 150px;" onclick='gain(); this.blur()'>
+            <button type="button" class="clicker map-marker" style="top: 725px; left: 1012.5px; width: 225px; height: 150px;" onclick="
+              if (you.cooldown <= 0) {sfx[0].currentTime = 0; sfx[0].play()};
+              gain(); this.blur();
+            ">
               <div class="title">Click to gain <b>Points</b> (p)<br></div>
               <div id="pluh"><b>+1p</b></div>
             </button>
@@ -463,7 +465,7 @@
               <div class="node node_n2 map-marker" style="top: 800px; left: 2837.5px; width: 50px; height: 100px;"></div>
               <div class="node node_n3 map-marker" style="top: 900px; left: 2837.5px; width: 50px; height: 100px;"></div>
               <button type="button" class="upg upg_n3 map-marker" style="top: 1000px; left: 2750px; width: 225px; height: 150px;" onclick='buy("n4"); this.blur()'>
-                <div class="title">N4 - hg<br></div>
+                <div class="title">N4 - NEaTly boosted<br></div>
                 <div class="boost"><div>
                   Boost <col_n>N</col_n> based on <col_p>p</col_p><br>
                   <col_footer>(p+1)^0.02</col_footer>
@@ -477,7 +479,7 @@
               <div class="node node_n2 map-marker" style="top: 800px; left: 3487.5px; width: 50px; height: 100px;"></div>
               <div class="node node_n3 map-marker" style="top: 900px; left: 3487.5px; width: 50px; height: 100px;"></div>
               <button type="button" class="upg upg_n3 map-marker" style="top: 1000px; left: 3400px; width: 225px; height: 150px;" onclick='buy("n5"); this.blur()'>
-                <div class="title">N5 - hg<br></div>
+                <div class="title">N5 - Booster's purpose<br></div>
                 <div class="boost"><div>
                   Boost <col_bp>ь</col_bp> based on <col_n>N</col_n><br>
                   <col_footer>(N+1)^0.05</col_footer>
@@ -516,7 +518,7 @@
                 <div class="title">N8 - Scavenger hunt<br></div>
                 <div class="boost"><div>
                   Unlock <col_n>NEaT Tokens</col_n>, where it'll spawn randomly around the map every 50s<br>
-                  <col_footer2>Despawns after 5m, resets on refresh</col_footer2>
+                  <col_footer2 style="white-space: nowrap;">Despawns after 5m, resets on refresh or ɱ reset</col_footer2>
                 </div></div>
                 <div class="cost">ello</div>
               </button>
@@ -595,17 +597,17 @@
 
       <!-- UI -->
       <div class="ui-layer">
-        <button type="button" style="width: 100px; height: 100px;" onclick="show('.info', true && !isInUI); isInUI = true;">open info UI (idk what to position)</button>
         <div class="tooltip">Tooltip Content</div>
         <div class="stats">
           <div class="stat" id="point">0p</div>
           <div class="stat" id="neat">-2N</div>
           <div class="stat" id="bpoint">{10,100[23]24}ь</div>
           <div class="stat" id="mat">a+biɱ</div>
+          <button type="button" class="info_btn" style="width: 125px; height: 35px;" onclick="show('.info', true && !isInUI); isInUI = true;">Info</button>
         </div>
         <div class="info" style="display: none;">
           <center>
-            <h1>PrUT: Outbloxima Reality</h1>
+            <h1>Proking's Upgrade Tree: Outbloxima Reality</h1>
             <span style="font-style: italic;">...the sequel to <a href="https://www.roblox.com/games/4343611304">Proking's Upgrade Tree</a></span>
           </center><br>
           &nbsp;Made by proking_noob2513 // Lead developer (Programming, map-making)<br>
@@ -613,14 +615,18 @@
           &nbsp;the_hamster_god // Small dev. assistance (Programming)<br>
           &nbsp;diamondzishere // Small dev. assistance (Programming)<br>
           &nbsp;artemkopyahov // Testing, rebalancing ideas<br>
-          &nbsp;79_protons // Testing<br><br>
+          &nbsp;79_protons // Testing<br>
+          &nbsp;<col_footer2>Copilot, Google search AI // Dev. assistance (Programming)</col_footer2><br>
+          &nbsp;<col_footer2>Some assets from original PrUT ;)</col_footer2><br><br>
           &nbsp;<a href="https://discord.gg/eAzQPyXTPc" target="_blank">My Discord server</a><br>
           &nbsp;<a href="https://boosty.to/testboosty12345678/donate" target="_blank">Support the project!</a><br><br>
           &nbsp;Playtime: <span id="playtime"></span>
           <button class="info_cl" onclick="hide('.info', true && isInUI); isInUI = false;">Close</button>
           <button class="info_rs" onclick='
-            if (prompt("Are you sure you want to reset data? Type \"reset\" to confirm.") == "reset") dataReset()
+            if (prompt("Are you sure you want to reset your data? Type \"reset\" to confirm.") == "reset") dataReset()
           '>RESET DATA</button>
+          <input type="range" class="info_vol" min="0" max="1" value="1" step="0.01">
+          <p class="info_dvol">Volume: 100%</p>
         </div>
       </div>
 

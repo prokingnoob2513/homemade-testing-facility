@@ -1,6 +1,6 @@
 function dataTemp() {
   return {
-    versionPlayed: "testing", // set to "testing" when finished
+    versionPlayed: "1",
     playtime: 0,
     
     points: new MetaNum(0),
@@ -14,19 +14,21 @@ function dataTemp() {
 
     started: false,
     cooldown: 0,
-    b10_timer: 30,
+    b10_timer: 120,
     u23_timer: 0,
+
+    volume: 1
   }
 }
 
 var you = dataTemp()
 
 var cps = [new MetaNum(0), 0] // 1st: CPS, 2nd: time until click
+var n2_discount = 1
 var n7_timer = 45
 var m_req = new MetaNum(Infinity)
 var c_rate = 125
 var p_upgs = 0
-var n2_discount = 1
 
 var s_time = 0
 var time = Date.now()
@@ -49,8 +51,7 @@ function load() {
     you.bpoints = new MetaNum(get2.bpoints)
     you.neat_comp = new MetaNum(get2.neat_comp)
     you.mat_comp = new MetaNum(get2.mat_comp)
-
-    if (you.versionPlayed != "testing") dataReset()
+    document.querySelector(".info_vol").value = String(you.volume)
   }
 
   /* disclaimer
@@ -142,6 +143,30 @@ function show(c, showAnim) {
     a.style.opacity = "1"
   }
 }
+function create_u_vfx(upg, length = 1) {
+  const vfx = document.createElement("div")
+  vfx.className = "upg_vfx"
+  vfx.style.width = upg.style.width
+  vfx.style.height = upg.style.height
+  vfx.style.top = upg.style.top
+  vfx.style.left = upg.style.left
+
+  vfx.style.backgroundColor = `color-mix(in srgb, ${window.getComputedStyle(upg).backgroundColor} 95%, black)`
+  vfx.style.transitionDuration = length + "s"
+  document.querySelector(".placements").append(vfx)
+
+  setTimeout(() => {
+    vfx.style.width = mult_px(upg.style.width, 2)
+    vfx.style.height = mult_px(upg.style.height, 2)
+    vfx.style.top = centerize_thing(upg.style.top, upg.style.height)
+    vfx.style.left = centerize_thing(upg.style.left, upg.style.width)
+    vfx.style.opacity = 0
+  }, 5)
+
+  setTimeout(() => {
+    vfx.remove()
+  }, 5 + length*1000)
+}
 
 const larp = (start, end, t) => start * (1 - t) + end * t
 const randNum = (min, max) => Math.random() * (max - min) + min
@@ -171,32 +196,14 @@ function buy(u) {
     you.upgs[u] = h + 1
 
     // Special cases
-    if (u == "b10") you.b10_timer = 30
-    if (u == "n15") window.alert("[TESTER] Reached N15 in "+formatTime(you.playtime)+" (Screenshot this and send it to IJS dev-chat)")
+    if (u == "b10") you.b10_timer = 120
+
+    // SFX
+    sfx[1].currentTime = 0
+    sfx[1].play()
 
     // VFX
-    const vfx = document.createElement("div")
-    const uh = document.querySelector(`#${u} > .upg`)
-    vfx.className = "upg_vfx"
-    vfx.style.width = uh.style.width
-    vfx.style.height = uh.style.height
-    vfx.style.top = uh.style.top
-    vfx.style.left = uh.style.left
-
-    vfx.style.backgroundColor = `color-mix(in srgb, ${window.getComputedStyle(uh).backgroundColor} 95%, black)`
-    document.querySelector(".placements").append(vfx)
-
-    setTimeout(() => {
-      vfx.style.width = mult_px(uh.style.width, 2)
-      vfx.style.height = mult_px(uh.style.height, 2)
-      vfx.style.top = centerize_thing(uh.style.top, uh.style.height)
-      vfx.style.left = centerize_thing(uh.style.left, uh.style.width)
-      vfx.style.opacity = 0
-    }, 5)
-
-    setTimeout(() => {
-      vfx.remove()
-    }, 1005)
+    create_u_vfx(document.querySelector(`#${u} > .upg`))
   }
 }
 function calc(s) {
@@ -276,10 +283,11 @@ function neat(m) {
     case "mat":
       if (you.neat_comp.gte(m_req)) {
         bp_reset(false)
-        for (let u of Object.keys(you.upgs)) {
+        Object.keys(you.upgs).forEach(u => {
           // Check if it's a neat upg
           if (u[0] == "n") delete you.upgs[u]
-        }
+        })
+        document.querySelectorAll(".n_token").forEach(hg => hg.remove())
         you.mat_comp = you.mat_comp.add(1)
       }
       break
@@ -303,14 +311,21 @@ function neat(m) {
           you.neat_timer = [0, stupidRounding(randNum(11, 14))]
         else
           you.neat_timer = [0, stupidRounding(randNum(14, 18))]
+      sfx[3].currentTime = 0
+      sfx[3].play()
       } else {
-          let o = you.upgs.n3 >= 1 ? (you.upgs.n14 >= 1 ? 0.2 : 0.25) : 0.3
-          if (
-              you.neat_timer[0] > you.neat_timer[1] - o &&
-              you.neat_timer[0] < you.neat_timer[1] + o
-          ) {
-            you.neat_comp = you.neat_comp.add(calc("n"))
-          }
+        let o = you.upgs.n3 >= 1 ? (you.upgs.n14 >= 1 ? 0.2 : 0.25) : 0.3
+        if (
+            you.neat_timer[0] > you.neat_timer[1] - o &&
+            you.neat_timer[0] < you.neat_timer[1] + o
+        ) {
+          you.neat_comp = you.neat_comp.add(calc("n"))
+          sfx[5].currentTime = 0
+          sfx[5].play()
+        } else {
+          sfx[4].currentTime = 0
+          sfx[4].play()
+        }
       }
       break
   }
@@ -322,13 +337,19 @@ function bp_reset(canGain = true) {
 
   you.neat_active = false
   you.neat_timer = [0,0]
-  you.b10_timer = 30
+  you.b10_timer = 120
   you.u23_timer = 0
 
-  for (let u of Object.keys(you.upgs)) {
+  Object.keys(you.upgs).forEach(u => {
     // Check if it's a point upg
     if (u[0] == "u") delete you.upgs[u]
-  }
+  })
+
+  // SFX
+  sfx[2].currentTime = 0
+  sfx[2].play()
+
+  // VFX soon
 }
 
 let g_loop = setInterval(() => {
@@ -340,9 +361,7 @@ let g_loop = setInterval(() => {
   m_req = new MetaNum(1000).mul(MetaNum(100).pow(you.mat_comp))
 
   let p_upgs2 = 0
-  for (let u of Object.keys(you.upgs)) {
-    if (u[0] == "u") p_upgs2 += 1
-  }
+  Object.keys(you.upgs).forEach(u => {if (u[0] == "u") p_upgs2 += 1})
   p_upgs = p_upgs2
 
   let c_rate2 = 125
@@ -350,6 +369,7 @@ let g_loop = setInterval(() => {
   if (you.upgs.n10 >= 1) c_rate2 *= 3
   c_rate = c_rate2
   n2_discount = 1.5**(you.upgs.n2||0)
+  you.volume = Number(document.querySelector(".info_vol").value)
 
   // Automation stuff
   if (cps[0].gte(20)) {
@@ -492,6 +512,7 @@ let g_loop = setInterval(() => {
     document.querySelector(".bp_plate > .upg_bp > .cost").textContent = `Buy U10 first!`
   }
 
+  document.querySelector(".info_dvol").textContent = `Volume: ${Math.round(you.volume*100)}%`
   document.querySelector(".neat").style.outline =
     `5px solid ${you.neat_active ? "#00cf00" : "#cf0000"}`
 
@@ -511,18 +532,18 @@ let g_loop = setInterval(() => {
   time = now
 }, 50)
 
-document.addEventListener("beforeunload", save)
-
 let n8_gen = setInterval(() => {
   if (you.upgs.n8 >= 1) {
     const t = document.createElement("button")
-    const ran = stupidRounding(randNum(3.5, 5))
+    const ran = stupidRounding(randNum(2, 4))
     t.className = "n_token"
     t.style.top = randNum(0, 1125) + "px"
     t.style.left = randNum(-1500, 2625) + "px"
     setupTooltip(t, () => `NEaT Token - Collect to gain <col_n>${format(calc("n")*ran)}N</col_n>`);
     t.addEventListener("click", () => {
       you.neat_comp = you.neat_comp.add(calc("n")*ran)
+      sfx[6].currentTime = 0
+      sfx[6].play()
       tooltip.classList.remove('visible');
       t.remove()
     })
@@ -531,26 +552,6 @@ let n8_gen = setInterval(() => {
     setTimeout(() => {t.remove()}, 300000)
   }
 }, 50000)
+document.addEventListener("beforeunload", save)
 let a_save = setInterval(save, 5000)
 load()
-
-
-
-
-
-
-
-
-
-
-
-// vault for testers >:D
-let SEED = [14791n, 18203940n, 58293n]
-if (!you.started) {
-  if (prompt("what's the powerhouse of the cell? (CASE SENSITIVE)") == "mitochondria") {
-    if (gurt(prompt("who are you then?")) == "n1o!uR{>0*~Sul9M_A>NLbn]y{ha]I[Eb") {
-
-    } else window.location.href = "https://www.youtube.com/shorts/aOIFGzMgXRI"
-  } else window.location.href = "https://www.youtube.com/shorts/aOIFGzMgXRI"
-}
-function gurt(n){let t=" abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,?!/<>@#$%^&*()_-+=~№;:'\"[]{}|",e=BigInt(t.length),g=0n,i=SEED[0],l="";for(let l=BigInt(n.length)-1n;l>=0n;l--){let E=BigInt(t.indexOf(n[l])),r=E>=0n?e**(BigInt(n.length)-l-1n)*E:0;l%2n==0n&&r%3n==l%(r%4n+2n)&&(r*=(r%4n+2n)*(l+1n)),g+=r*i,i=(i+SEED[2]**(l%3n+l*(E+2n)%3n))%SEED[1]}for(;g>0n;)l+=t[g%e],g/=e;return l}

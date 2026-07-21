@@ -1,6 +1,6 @@
 /* Initial */
 
-html, body { height: 100%; margin: 0px; overflow: hidden;}
+html, body {height: 100%; margin: 0px; overflow: hidden;}
 * {
   font-family: 'Roboto', arial !important;
   font-size: clamp(10px, 7cqmin, 18px);
@@ -8,7 +8,8 @@ html, body { height: 100%; margin: 0px; overflow: hidden;}
 button:hover {cursor: pointer;}
 
 /* Map */
-/* outside (-69421) -> map (-69420) -> structs (-1) -> upgs/nodes, upg.vfx (0) -> n_tokens (1) -> transparent, black background (2) -> UI (3) */
+/* outside (-69421) -> map (-69420) -> structs (-1) -> upgs/nodes, upg.vfx (0)
+-> ??? (1) -> n_tokens (2) -> statImage (3) -> transparent, black background (4) -> UI (69420) */
 
 #map-viewport {
   width: 100%;
@@ -23,7 +24,7 @@ button:hover {cursor: pointer;}
   position: fixed;
   inset: 0;
   background-color: #000000A0;
-  z-index: 2;
+  z-index: 4;
   pointer-events: none;
 }
 #map-viewport:active {cursor: grabbing;}
@@ -181,7 +182,6 @@ button:hover {cursor: pointer;}
 
 .upg_vfx {
   transform: translate(2375px, 2375px);
-  transition-duration: 1s;
   transition-timing-function: linear;
   
   position: absolute;
@@ -239,7 +239,6 @@ button:hover {cursor: pointer;}
 .stats {
   position: absolute;
   inset: 0;
-  pointer-events: none;
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
@@ -263,10 +262,10 @@ button:hover {cursor: pointer;}
 .n_token {
   position: absolute;
   transform: translate(2375px, 2375px);
-  width: 75px;
-  height: 75px;
+  width: 50px;
+  height: 50px;
   background-image: url("assets/n_token.png");
-  z-index: 1;
+  z-index: 2;
 }
 
 .info {
@@ -302,6 +301,23 @@ button:hover {cursor: pointer;}
   white-space: nowrap;
   font-size: x-small;
 }
+.info_vol {
+  position: absolute;
+  top: 92%;
+  left: 88%;
+  transform: translate(-50%, -50%);
+}
+.info_dvol {
+  position: absolute;
+  top: 82.5%;
+  left: 88.5%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+.info_btn {
+  background-color: #dadada;
+  outline: 2px solid #000;
+}
 
 .ui-layer {
   position: absolute;
@@ -311,7 +327,7 @@ button:hover {cursor: pointer;}
   height: 100%;
 
   pointer-events: none;
-  z-index: 3;
+  z-index: 69420;
 }
 .ui-layer > button {pointer-events: auto;}
 /* Used google AI for this */
