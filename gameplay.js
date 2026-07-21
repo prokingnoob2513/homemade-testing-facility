@@ -486,17 +486,17 @@ let g_loop = setInterval(() => {
   if (you.upgs.n9 >= 1) {
     document.querySelector(`#n4 > .upg > .boost > div`).innerHTML =
       `Boost <col_n>N</col_n> based on <col_p>p</col_p><br>
-      <col_footer>(p+1)^0.045</col_footer>`
+      <col_footer>(p+1)^0.065</col_footer>`
     document.querySelector(`#n5 > .upg > .boost > div`).innerHTML =
       `Boost <col_bp>ь</col_bp> based on <col_n>N</col_n><br>
-      <col_footer>(N+1)^0.075</col_footer>`
+      <col_footer>(N+1)^0.105</col_footer>`
   } else {
     document.querySelector(`#n4 > .upg > .boost > div`).innerHTML =
       `Boost <col_n>N</col_n> based on <col_p>p</col_p><br>
-      <col_footer>(p+1)^0.02</col_footer>`
+      <col_footer>(p+1)^0.04</col_footer>`
     document.querySelector(`#n5 > .upg > .boost > div`).innerHTML =
       `Boost <col_bp>ь</col_bp> based on <col_n>N</col_n><br>
-      <col_footer>(N+1)^0.05</col_footer>`
+      <col_footer>(N+1)^0.08</col_footer>`
   }
   if (you.upgs.n14 >= 1)
     document.querySelector(`#n3 > .upg > .boost > div`).innerHTML =
