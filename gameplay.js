@@ -439,7 +439,10 @@ let g_loop = setInterval(() => {
     <img class="statImage" src="assets/n.png" draggable="false" style="user-select: none;">`
   document.getElementById("neat").style.display =
     (you.neat_comp.neq(0)) ? "" : "none"
-  document.getElementById("bpoint").innerHTML = `${format(you.bpoints)}ь <img class="statImage" src="assets/bp.png" draggable="false" style="user-select: none;">`
+  document.getElementById("bpoint").innerHTML = 
+    `${format(you.bpoints)}ь
+    ${you.points.gte(10000) && you.upgs.u10 >= 1 ? "<br>(+"+format(calc("bp"))+")" : ""}
+    <img class="statImage" src="assets/bp.png" draggable="false" style="user-select: none;">`
   document.getElementById("bpoint").style.display =
     (you.bpoints.neq(0)) ? "" : "none"
   document.getElementById("mat").innerHTML = `${format(you.mat_comp)}ɱ <img class="statImage" src="assets/m.png" draggable="false" style="user-select: none;">`
@@ -511,6 +514,10 @@ let g_loop = setInterval(() => {
   } else {
     document.querySelector(".bp_plate > .upg_bp > .cost").textContent = `Buy U10 first!`
   }
+  if (you.upgs.n12 >= 1)
+    document.querySelector(".bp_plate > .upg_bp > .boost > div > col_footer").textContent = `Formula: sqrt(p^${1+0.025*(you.upgs.n12||0)}/10,000)`
+  else 
+    document.querySelector(".bp_plate > .upg_bp > .boost > div > col_footer").textContent = `Formula: sqrt(p/10,000)`
 
   document.querySelector(".info_dvol").textContent = `Volume: ${Math.round(you.volume*100)}%`
   document.querySelector(".neat").style.outline =
