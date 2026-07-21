@@ -231,6 +231,7 @@ button:hover {cursor: pointer;}
   /* made by ai :sob: */
   align-items: center;
   justify-content: start;
+  position: relative;
   line-height: 1.2;
   box-sizing: border-box;
   padding: 8px;
@@ -248,15 +249,19 @@ button:hover {cursor: pointer;}
 }
 .stats > * {pointer-events: auto;}
 .statImage {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
   display: flex;
-  justify-content: flex-end;
-  margin-left: auto;
-  margin-right: 0;
+  
+  align-items: center;
+  justify-content: center;
   width: 100px;
   height: 100px;
   object-fit: cover;
   z-index: 3;
-  opacity: 60%;
+  opacity: 0.6;
   clip-path: inset(20px 10px 20px 10px); /* Top, right, bottom, left margins to cut out */
 }
 .n_token {
