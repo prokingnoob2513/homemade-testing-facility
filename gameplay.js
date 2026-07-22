@@ -25,7 +25,7 @@ var you = dataTemp()
 
 var cps = [new MetaNum(0), 0] // 1st: CPS, 2nd: time until click
 var n2_discount = 1
-var n7_timer = 45
+var n7_timer = [45, 45] // 1st: timer, 2nd: interval
 var m_req = new MetaNum(Infinity)
 var c_rate = 125
 var p_upgs = 0
@@ -220,6 +220,7 @@ function calc(s) {
       if (you.upgs.u17 >= 1) r = r.mul(upgs.u17.boost()[0])
       if (you.upgs.u22 >= 1) r = r.mul(upgs.u22.boost()[0])
       if (you.upgs.u23 >= 1) r = r.mul(upgs.u23.boost())
+      if (you.upgs.u26 >= 1) r = r.mul(upgs.u26.boost())
 
       if (you.upgs.b1 >= 1) r = r.mul(upgs.b1.boost())
       if (you.upgs.b4 >= 1) r = r.mul(upgs.b4.boost()[0])
@@ -228,9 +229,12 @@ function calc(s) {
       if (you.upgs.b10 >= 1) r = r.mul(upgs.b10.boost())
       if (you.upgs.b12 >= 1) r = r.mul(upgs.b12.boost())
       if (you.upgs.b13 >= 1) r = r.mul(upgs.b13.boost()[0])
+      if (you.upgs.b15 >= 1) r = r.mul(upgs.b15.boost()[0])
       
       if (you.mat_comp.gte(1)) r = r.mul(10)
       if (you.mat_comp.gte(2)) r = r.mul(7.5)
+
+      if (you.mat_comp.gte(5)) r = r.pow(1.02)
       return r
     case "cps":
       let g = new MetaNum(0)
@@ -250,28 +254,37 @@ function calc(s) {
       if (you.upgs.b14 >= 1) g = g.mul(1.5)
       return g
     case "bp":
-      let m = 1
+      let m = new MetaNum(1)
       let ex = 1
-      if (you.upgs.u17 >= 1) m *= upgs.u17.boost()[1]
-      if (you.upgs.b4 >= 1) m *= upgs.b4.boost()[1]
-      if (you.upgs.n5 >= 1) m *= upgs.n5.boost()
+      let exp = 1
+      if (you.upgs.u17 >= 1) m = m.mul(upgs.u17.boost()[1])
+      if (you.upgs.u26 >= 1) m = m.mul(upgs.u26.boost())
+      if (you.upgs.b4 >= 1) m = m.mul(upgs.b4.boost()[1])
+      if (you.upgs.n5 >= 1) m = m.mul(upgs.n5.boost())
       if (you.upgs.n12 >= 1) ex += 0.025 * (you.upgs.n12||0)
-      return you.points.pow(ex).div(10000).pow(0.5).mul(m)
+
+      if (you.mat_comp.gte(5)) exp = 1.02
+      return you.points.pow(ex).div(10000).pow(0.5)
+      .mul(m).pow(exp)
     case "n":
-      let be = 1
-      if (you.upgs.u15 >= 1) be *= upgs.u15.boost()
-      if (you.upgs.u17 >= 1) be *= upgs.u17.boost()[2]
-      if (you.upgs.u22 >= 1) be *= upgs.u22.boost()[1]
+      let be = new MetaNum(1)
+      if (you.upgs.u15 >= 1) be = be.mul(upgs.u15.boost())
+      if (you.upgs.u17 >= 1) be = be.mul(upgs.u17.boost()[2])
+      if (you.upgs.u22 >= 1) be = be.mul(upgs.u22.boost()[1])
+      if (you.upgs.u26 >= 1) be = be.mul(upgs.u26.boost())
 
-      if (you.upgs.n1 >= 1) be *= upgs.n1.boost()
-      if (you.upgs.n3 >= 1) be *= upgs.n3.boost()
-      if (you.upgs.n4 >= 1) be *= upgs.n4.boost()
-      if (you.upgs.n10 >= 1) be *= upgs.n10.boost()
-      if (you.upgs.b8 >= 1) be *= upgs.b8.boost()[2]
-      if (you.upgs.b11 >= 1) be *= upgs.b11.boost()
+      if (you.upgs.n1 >= 1) be = be.mul(upgs.n1.boost())
+      if (you.upgs.n3 >= 1) be = be.mul(upgs.n3.boost())
+      if (you.upgs.n4 >= 1) be = be.mul(upgs.n4.boost())
+      if (you.upgs.n10 >= 1) be = be.mul(upgs.n10.boost())
+      if (you.upgs.b8 >= 1) be = be.mul(upgs.b8.boost()[2])
+      if (you.upgs.b11 >= 1) be = be.mul(upgs.b11.boost())
+      if (you.upgs.b15 >= 2) be = be.mul(upgs.b15.boost()[1])
 
-      if (you.mat_comp.gte(1)) be *= 5
-      if (you.mat_comp.gte(2)) be *= 3
+      if (you.mat_comp.gte(1)) be = be.mul(5)
+      if (you.mat_comp.gte(2)) be = be.mul(3)
+
+      if (you.mat_comp.gte(5)) be = be.pow(1.02)
       return be
     case "n_conv":
       return calc("p").mul(cps[0]).mul(c_rate)
@@ -308,14 +321,16 @@ function neat(m, args) {
     default:
       you.neat_active = !you.neat_active
       if (you.neat_active) {
-        if (you.upgs.n6 >= 1)
-          you.neat_timer = [0, stupidRounding(randNum(8, 12))]
-        else if (you.upgs.b6 >= 1)
-          you.neat_timer = [0, stupidRounding(randNum(11, 14))]
-        else
-          you.neat_timer = [0, stupidRounding(randNum(14, 18))]
-      sfx[3].currentTime = 0
-      sfx[3].play()
+        let rng = [14, 18]
+        if (you.upgs.n6 >= 1) rng = [8, 12]
+        else if (you.upgs.b6 >= 1) rng = [11, 14]
+
+        if (you.mat_comp.gte(10)) rng = [rng[0]-4, rng[1]-4]
+        else if (you.mat_comp.gte(4)) rng = [rng[0]-you.mat_comp.toNumber()*0.4, rng[1]-you.mat_comp.toNumber()*0.4]
+
+        you.neat_timer = [0, stupidRounding(randNum(rng[0], rng[1]))]
+        sfx[3].currentTime = 0
+        sfx[3].play()
       } else {
         let o = you.upgs.n3 >= 1 ? (you.upgs.n14 >= 1 ? 0.2 : 0.25) : 0.3
         if (
@@ -341,11 +356,15 @@ function bp_reset(canGain = true) {
   you.neat_active = false
   you.neat_timer = [0,0]
   you.b10_timer = 120
-  you.u23_timer = 0
+  if (you.mat_comp.lt(6)) you.u23_timer = 0
 
   Object.keys(you.upgs).forEach(u => {
     // Check if it's a point upg
-    if (u[0] == "u") delete you.upgs[u]
+    if (u[0] == "u") {
+      if (you.mat_comp.gte(6)) {
+        if (u != "u10") delete you.upgs[u]
+      } else delete you.upgs[u]
+    }
   })
 
   // SFX
@@ -374,6 +393,11 @@ let g_loop = setInterval(() => {
   n2_discount = 1.5**(you.upgs.n2||0)
   you.volume = Number(document.querySelector(".info_vol").value)
 
+  if (you.mat_comp.gte(10)) n7_timer[1] = 20
+  else if (you.mat_comp.gte(4)) n7_timer[1] = 45 - you.mat_comp.toNumber()*2.5
+  else n7_timer[1] = 45
+  if (s_time < 0.1) n7_timer[0] = n7_timer[1]
+
   // Automation stuff
   if (cps[0].gte(20)) {
     you.points = you.points.add(calc("p").mul(cps[0].div(20)))
@@ -382,9 +406,9 @@ let g_loop = setInterval(() => {
       you.points = you.points.add(calc("p"))
     cps[1] = 1/cps[0].toNumber()
   }
-  if (n7_timer <= 0 && you.upgs.n7 >= 1) {
+  if (n7_timer[0] <= 0 && you.upgs.n7 >= 1) {
     you.neat_comp = you.neat_comp.add(calc("n"))
-    n7_timer = 45
+    n7_timer[0] = n7_timer[1]
   }
 
   // Check if unlocked
@@ -431,6 +455,12 @@ let g_loop = setInterval(() => {
     you.upgs.b7 >= 1 ? "" : "none"
   document.querySelector(".m_plate").style.display =
     you.upgs.b11 >= 1 ? "" : "none"
+
+  // Why not?????
+  if (you.mat_comp.gte(6))
+    document.querySelector("#u10 > .node").style.display =
+      upgs.u9.unlockedIf() ? "" : "none"
+  document.querySelectorAll(".mat_evil").forEach(e => e.style.display = you.mat_comp.gte(4) ? "" : "none")
   
   // Update text/style
   document.getElementById("pluh").innerHTML = `+${format(calc("p"))}p<br>${cps[0].gte(0) ? "("+format(cps[0])+" CPS)" : ""}`
@@ -477,6 +507,7 @@ let g_loop = setInterval(() => {
   if (you.upgs.u13 >= 1) {l = 5; d = 3}
   if (you.upgs.n13 >= 1) {l -= 3}
   document.querySelector(`#u8 > .upg > .boost > div`).innerHTML = `Boost <col_p>p</col_p> based on itself<br><col_footer>log${l}(p)/${d}+1</col_footer>`
+  document.querySelector(`#n7 > .upg > .boost > div`).innerHTML = `Automate <col_n>NEaT</col_n> completions every ${format(n7_timer[1])}s`
 
   if (you.upgs.u21 >= 1)
     document.querySelector(`#u14 > .upg > .boost > div`).innerHTML =
@@ -531,7 +562,7 @@ let g_loop = setInterval(() => {
   if (!timeStop) you.playtime += diff
   s_time += diff
   if (!timeStop) cps[1] -= diff
-  if (!timeStop) n7_timer -= diff
+  if (!timeStop) n7_timer[0] -= diff
   if (!timeStop && you.b10_timer > 0) {
     if (you.upgs.n11 >= 1) you.b10_timer -= diff * upgs.n11.boost()
     else you.b10_timer -= diff
@@ -549,9 +580,9 @@ let n8_gen = setInterval(() => {
     t.className = "n_token"
     t.style.top = randNum(0, 1125) + "px"
     t.style.left = randNum(-1500, 2625) + "px"
-    setupTooltip(t, () => `NEaT Token - Collect to gain <col_n>${format(calc("n")*ran)}N</col_n>`);
+    setupTooltip(t, () => `NEaT Token - Collect to gain <col_n>${format(calc("n").mul(ran))}N</col_n>`);
     t.addEventListener("click", () => {
-      you.neat_comp = you.neat_comp.add(calc("n")*ran)
+      you.neat_comp = you.neat_comp.add(calc("n").mul(ran))
       sfx[6].currentTime = 0
       sfx[6].play()
       tooltip.classList.remove('visible');

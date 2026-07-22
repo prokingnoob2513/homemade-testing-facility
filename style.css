@@ -85,6 +85,8 @@ button:hover {cursor: pointer;}
   background-color: #000;
   border: 5px solid transparent;
   border-image: linear-gradient(to right, #94BE81, #4B974B, #3A7D15, #364639, #182B1B, #364639, #3A7D15, #4B974B, #94BE81) 1;
+  overflow-y: auto;
+  scrollbar-width: none; 
 }
 .mat_mile > center > div {
   width: 90%;
@@ -99,7 +101,8 @@ button:hover {cursor: pointer;}
      1.05px  1.05px 0 #000;
   font-family: 'Lucida Console', arial !important;
 }
-.mat_mile > center > * > *, .mat_mile > center > div > h1 > * {font-family: 'Lucida Console', arial !important}
+.mat_mile > center > * > *, .mat_mile > center > div > h1 > *
+{font-family: 'Lucida Console', arial !important}
 
 /* Upgrades */
 
@@ -214,6 +217,7 @@ button:hover {cursor: pointer;}
 }
 #n8 > .upg > .boost > div, #n8 > .upg > .boost > div > col_n {font-size: clamp(10px, 7cqmin, 16px);}
 #b11 > .upg > .boost > div, #b11 > .upg > .boost > div > * {font-size: clamp(10px, 7cqmin, 15px);}
+#b15 > .upg > .boost > div, #b15 > .upg > .boost > div > * {font-size: clamp(10px, 7cqmin, 14px);}
 .bp_plate > .upg_bp > .cost {white-space: nowrap;}
 
 /* UI and stuff */

@@ -29,6 +29,20 @@
                 <div><h1><col_m>1ɱ</col_m></h1><col_p>x10 p</col_p> and <col_n>x5 N</col_n> gain, +50 max levels to B4</div>
                 <div><h1><col_m>2ɱ</col_m></h1><col_p>x7.5 p</col_p> and <col_n>x3 N</col_n> gain</div>
                 <div><h1><col_m>3ɱ</col_m></h1><col_cps>x2 CPS</col_cps> after all boosts</div>
+
+                <div class="mat_evil">
+                  <h1><col_m>4ɱ</col_m></h1>
+                  -0.4s <col_n>NEaT</col_n> target time and -2.5s interval to N7 per <col_m>ɱ</col_m>, ending at <col_m>10ɱ</col_m><br>
+                  <col_footer>All milestones past this point are optional!</col_footer>
+                </div>
+                <div class="mat_evil">
+                  <h1><col_m>5ɱ</col_m></h1>
+                  <col_p>^1.02 p</col_p>, <col_bp>ь</col_bp>, and <col_n>N</col_n> gain after all multipliers<br>
+                </div>
+                <div class="mat_evil">
+                  <h1><col_m>6ɱ</col_m></h1>
+                  U10 and U23's time is kept on <col_bp>ь</col_bp> reset<br>
+                </div>
               </center>
             </div>
           </div>
@@ -45,7 +59,7 @@
               if (you.points.gte(10000) && you.upgs.u10 >= 1)
                 if (confirm("Perform ь reset for "+format(calc("bp"))+"ь?")) bp_reset(); this.blur()
             '>
-              <div class="title">BOOSTER POINT<br></div>
+              <div class="title">BOOSTER POINTS<br></div>
               <div class="boost"><div>
                 Reset previous progress to gain <col_bp>Booster Points (ь)</col_bp><br>
                 <col_footer>Formula: sqrt(p/10,000)</col_footer>
@@ -212,7 +226,7 @@
             <div id="u16">
               <div class="node node_p map-marker" style="top: 425px; left: 475px; width: 50px; height: 75px;"></div>
               <button type="button" class="upg upg_p map-marker" style="top: 275px; left: 387.5px; width: 225px; height: 150px;" onclick='buy("u16"); this.blur()'>
-                <div class="title">U16 - Generically unbalanced<br></div>
+                <div class="title">U16 - Generically a big deal<br></div>
                 <div class="boost"><div><col_p>x4 p</col_p> gain</div></div>
                 <div class="cost">ello</div>
               </button>
@@ -276,7 +290,7 @@
                 <div class="title">U23 - Self-growing<br></div>
                 <div class="boost"><div>
                   The longer you have this upgrade, the more <col_p>p</col_p> you get<br>
-                  <col_footer>time^0.6+1, time resets on ь reset</col_footer>
+                  <col_footer>time^0.6+1</col_footer>
                 </div></div>
                 <div class="cost">ello</div>
               </button>
@@ -294,6 +308,17 @@
               <button type="button" class="upg upg_p map-marker" style="top: 1625px; left: 387.5px; width: 225px; height: 150px;" onclick='buy("u25"); this.blur()'>
                 <div class="title">U25 - To the extreme<br></div>
                 <div class="boost"><div><col_cps>+1.25 CPS</col_cps> boost to U3</div></div>
+                <div class="cost">ello</div>
+              </button>
+            </div>
+            <div id="u26">
+              <div class="node node_p map-marker" style="top: 1675px; left: 612.5px; width: 87.5px; height: 50px;"></div>
+              <button type="button" class="upg upg_p map-marker" style="top: 1625px; left: 700px; width: 225px; height: 150px;" onclick='buy("u26"); this.blur()'>
+                <div class="title">U26 - A bit of everything<br></div>
+                <div class="boost"><div>
+                  <col_p>+x0.3 p</col_p>, <col_bp>ь</col_bp>, and <col_n>N</col_n> gain per level starting at x1.3<br>
+                  <col_footer>Expect cost scaling to be high, might fix it in next update!</col_footer>
+                </div></div>
                 <div class="cost">ello</div>
               </button>
             </div>
@@ -338,7 +363,9 @@
               <div class="node node_bp map-marker" style="top: 875px; left: -1212.5px; width: 50px; height: 75px;"></div>
               <button type="button" class="upg upg_bp map-marker" style="top: 950px; left: -1300px; width: 225px; height: 150px;" onclick='buy("b4"); this.blur()'>
                 <div class="title">B4 - Capacity<br></div>
-                <div class="boost"><div><col_p>+x0.5 p</col_p> and <col_bp>+x0.25 ь</col_bp> gain per level, both starting at x1</div></div>
+                <div class="boost"><div>
+                  <col_p>+x0.5 p</col_p> and <col_bp>+x0.25 ь</col_bp> gain per level, both starting at <col_p>x1.5 p</col_p> and <col_bp>x1.25 ь</col_bp>
+                </div></div>
                 <div class="cost">ello</div>
               </button>
             </div>
@@ -440,6 +467,17 @@
                 <div class="cost">ello</div>
               </button>
             </div>
+            <div id="b15">
+              <div class="node node_bp map-marker" style="top: 1675px; left: -762.5px; width: 87.5px; height: 50px;"></div>
+              <button type="button" class="upg upg_bp map-marker" style="top: 1625px; left: -675px; width: 225px; height: 150px;" onclick='buy("b15"); this.blur()'>
+                <div class="title">B15 - Magnitude power<br></div>
+                <div class="boost"><div>
+                  Level 1: <col_p>x1.4 p</col_p> gain for every OoM of <col_bp>ь</col_bp>, starting at <col_bp>1e10ь</col_bp><br>
+                  Level 2: <col_n>x1.25 N</col_n> gain for every OoM of <col_bp>ь</col_bp>, starting at <col_bp>1e15ь</col_bp><br>
+                </div></div>
+                <div class="cost">ello</div>
+              </button>
+            </div>
 
             <div id="n1">
               <!--div class="node node_n map-marker" style="top: 100px; left: 2175px; width: 900px; height: 50px;"></div-->
@@ -529,7 +567,7 @@
               <button type="button" class="upg upg_n4 map-marker" style="top: 1425px; left: 3275px; width: 225px; height: 150px;" onclick='buy("n8"); this.blur()'>
                 <div class="title">N8 - Scavenger hunt<br></div>
                 <div class="boost"><div>
-                  Unlock <col_n>NEaT Tokens</col_n>, where it'll spawn randomly around the map every 50s<br>
+                  Unlock <col_n>NEaT Tokens</col_n>, where it'll spawn randomly around the center of map every 50s<br>
                   <col_footer2 style="white-space: nowrap;">Despawns after 5m, resets on refresh or ɱ reset</col_footer2>
                 </div></div>
                 <div class="cost">ello</div>

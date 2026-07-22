@@ -122,11 +122,10 @@ var upgs = {
         p_cost() {return new MetaNum(6000).div(n2_discount)},
 
         boost() {return 1.25},
-        unlockedIf() {return you.upgs.u9 >= 1},
+        unlockedIf() {return you.upgs.u9 >= 1 || you.mat_comp.gte(6)},
         max() {return 1},
         type: 0
     },
-
     u11: {
         p_cost() {return new MetaNum(12500).div(n2_discount)},
 
@@ -253,6 +252,18 @@ var upgs = {
         max() {return 1},
         type: 0
     },
+    u26: {
+        p_cost() {
+            if (you.upgs.u26 >= 1) return new MetaNum(1e27).mul(10**((you.upgs.u26||0)-1))
+            return new MetaNum(5e25)
+        },
+
+        boost() {return 1+0.3*(you.upgs.u26||0)},
+        unlockedIf() {return you.upgs.u25 >= 1},
+        max() {return 20},
+        tooltip() {return `Current effect: <col_p>x${format(upgs.u26.boost())} p</col_p>, <col_bp>ь</col_bp>, and <col_n>N</col_n> gain`},
+        type: 0
+    },
 
     // bpoint upgs
     b1: {
@@ -371,6 +382,22 @@ var upgs = {
         boost() {return 1.5},
         unlockedIf() {return you.upgs.b13 >= 1},
         max() {return 1},
+        type: 0
+    },
+    b15: {
+        bp_cost() {
+            if (you.upgs.b15 >= 1) return new MetaNum(1e18)
+            return new MetaNum(1e12)
+        },
+        
+        boost() {return [MetaNum(1.4).pow(you.bpoints.div(1e10).log10().floor().max(0)), MetaNum(1.25).pow(you.bpoints.div(1e15).log10().floor().max(0))]},
+        unlockedIf() {return you.upgs.b13 >= 1},
+        max() {return 2},
+        tooltip() {
+            if (you.upgs.b15 >= 2)
+                return `Current effect: <col_p>x${format(upgs.b15.boost()[0])} p</col_p>, <col_n>x${format(upgs.b15.boost()[1])} N</col_n> gain`
+            return `Current effect: <col_p>x${format(you.upgs.b15 >= 1 ? upgs.b15.boost()[0] : 1)} p</col_p> gain`
+        },
         type: 0
     },
 
