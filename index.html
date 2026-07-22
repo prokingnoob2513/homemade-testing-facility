@@ -17,10 +17,10 @@
 
           <div class="m_plate">
             <img src="assets/m_plate.png" draggable="false" style="position: absolute; top: 2250px; left: -1500px;">
-            <button type="button" class="mat map-marker" style="top: 2942.5px; left: -1187.5px; width: 500px; height: 500px;" ondblclick="neat('mat'); this.blur()">
+            <button type="button" class="mat map-marker" style="top: 2942.5px; left: -1187.5px; width: 500px; height: 500px;" onclick="neat('mat', true); this.blur()">
               Maybe a Tower<br>
               Requirement: <col_n><span id="mat_req">1,000N</span></col_n><br>
-              Double-click to gain <col_m>+1ɱ</col_m>, but forces a <col_bp>ь</col_bp> reset for <col_bp>0ь</col_bp> and resets <col_n>N</col_n> upgrades<br>
+              Gain <col_m>+1ɱ</col_m>, but forces a <col_bp>ь</col_bp> reset for <col_bp>0ь</col_bp> and resets <col_n>N</col_n> upgrades<br>
               Each <col_m>ɱ</col_m> increases the requirement by x100
             </button>
             <div class="mat_mile map-marker" style="top: 2937.5px; left: -650px; width: 250px; height: 500px;">
@@ -34,19 +34,20 @@
           </div>
           <div class="n_upgs_plate">
             <img src="assets/n_upgs_plate.png" draggable="false" style="position: absolute; top: 0px; left: 2250px;">
-            <button type="button" class="upg upg_n map-marker" style="top: 50px; left: 1637.5px; width: 225px; height: 150px;" ondblclick='neat("m_conv"); this.blur()'>
+            <button type="button" class="upg upg_n map-marker" style="top: 50px; left: 1637.5px; width: 225px; height: 150px;" onclick='neat("m_conv"); this.blur()'>
               <div class="title">Max NEaT Conversion<br></div>
-              <div class="boost">Double-click to convert all your N into -1p</div>
+              <div class="boost">Convert all your N into -1p</div>
             </button>
           </div>
           <div class="bp_plate">
             <img src="assets/bp_plate.png" draggable="false" style="position: absolute; top: 0px; left: -1500px;">
-            <button type="button" class="upg upg_bp map-marker" style="top: 500px; left: -675px; width: 225px; height: 150px;" ondblclick='
-              if (you.points.gte(10000) && you.upgs.u10 >= 1) bp_reset(); this.blur()
+            <button type="button" class="upg upg_bp map-marker" style="top: 500px; left: -675px; width: 225px; height: 150px;" onclick='
+              if (you.points.gte(10000) && you.upgs.u10 >= 1)
+                if (confirm("Perform ь reset for "+format(calc("bp"))+"ь?")) bp_reset(); this.blur()
             '>
               <div class="title">BOOSTER POINTS<br></div>
               <div class="boost"><div>
-                Double-click to reset previous progress to gain <col_bp>Booster Points (ь)</col_bp><br>
+                Reset previous progress to gain <col_bp>Booster Points (ь)</col_bp><br>
                 <col_footer>Formula: sqrt(p/10,000)</col_footer>
               </div></div>
               <div class="cost">ello</div>

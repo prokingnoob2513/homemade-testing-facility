@@ -280,10 +280,11 @@ function calc(s) {
       return 0
   }
 }
-function neat(m) {
+function neat(m, args) {
   switch (m) {
     case "mat":
       if (you.neat_comp.gte(m_req)) {
+        if (args) if (!confirm("Perform ɱ reset for +1ɱ?")) return
         bp_reset(false)
         Object.keys(you.upgs).forEach(u => {
           // Check if it's a neat upg
@@ -462,7 +463,7 @@ let g_loop = setInterval(() => {
     </div>`
   document.querySelector(".n_upgs_plate > .upg_n > .boost").innerHTML =
     `<div>
-    Double-click to convert all your <col_n>N</col_n> to <col_p>${format(calc("n_conv").mul(you.neat_comp))}p</col_p>
+    Convert all your <col_n>N</col_n> to <col_p>${format(calc("n_conv").mul(you.neat_comp))}p</col_p>
     </div>`
   document.getElementById("mat_req").textContent = `${format(m_req)}N`
 
